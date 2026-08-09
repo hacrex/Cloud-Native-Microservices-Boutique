@@ -179,3 +179,8 @@ Find **Protocol Buffers Descriptions** at the [`./protos` directory](/protos).
 - [Google Cloud Next'18 London – Keynote](https://youtu.be/nIq2pkNcfEI?t=3071)
   showing Stackdriver Incident Response Management
 - [Microservices demo showcasing Go Micro](https://github.com/go-micro/demo)
+
+## 🛠️ Functional Templates
+This repository includes production-ready templates to get started quickly:
+- **Terraform**: Located in `terraform/templates/` for cluster and provider setup.
+- **Kubernetes**: Located in `kubernetes/manifests/` for application deployment and security policies.
