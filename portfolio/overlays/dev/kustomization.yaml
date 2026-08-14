@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: boutique-portfolio
+resources:
+  - ../../../kustomize/base
+  - namespace.yaml
+  - quota.yaml
+  - frontend-hpa.yaml
+patches:
+  - path: frontend-service-patch.yaml
+labels:
+  - pairs:
+      app.kubernetes.io/part-of: boutique-portfolio
+      environment: dev
+    includeSelectors: false
