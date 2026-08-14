@@ -22,7 +22,7 @@ This document walks through the process of creating a new release of Online Bout
 
 ## Create the release branch and PR
 
-The preferred way to start a new release is to run the **Manual Release Builder** workflow in GitHub Actions.
+The preferred way to start a new release is to run the **Manual Release Builder** manual release builder.
 
 ### Trigger the release workflow
 

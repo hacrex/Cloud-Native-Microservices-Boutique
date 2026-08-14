@@ -1,25 +1,27 @@
 # Cloud-Native Microservices Boutique
 
-A portfolio adaptation of [Google Cloud Online Boutique](https://github.com/GoogleCloudPlatform/microservices-demo), retained under the upstream Apache License 2.0. It is a useful reference application for discussing the operational consequences of a multi-service architecture rather than a claim that I authored the complete application.
+This repository tracks the [Google Cloud Online Boutique](https://github.com/GoogleCloudPlatform/microservices-demo) reference application and adds a small deployment overlay for local platform work. The upstream source remains under its Apache 2.0 license; see `NOTICE` and `docs/UPSTREAM_README.md` for attribution and original instructions.
 
-## What this repository demonstrates
+The added overlay lives in `overlays/dev/`. It uses its own namespace, a quota, a frontend HPA, and a development-friendly `NodePort` service. It is deliberately small so changes are easy to review.
 
-- A multi-language e-commerce application with service boundaries and dependencies.
-- Kubernetes manifests, Helm charts, Kustomize components, and a GCP-oriented Terraform path.
-- OpenTelemetry-aware deployment patterns and load-generation tooling.
-- Practical topics such as service discovery, dependency tracing, rollout safety, and resource isolation.
-
-## How I position it in an interview
-
-I focus on the platform work around the application: how I would validate a Helm release, trace a slow checkout request, define ownership, use Git-based deployment controls, and decide whether a service mesh is worth its operational cost.
-
-## Local and cluster evaluation
-
-Use one native deployment path at a time: `kubernetes-manifests/`, `helm-chart/`, or `terraform/`. The GCP Terraform example needs a real project ID and should be planned in a disposable environment first.
+## Try the overlay
 
 ```bash
-helm lint helm-chart
-kubectl apply --dry-run=server -f kubernetes-manifests/
+./scripts/validate-overlay.sh
+kubectl apply -k overlays/dev
+kubectl get deploy,svc,hpa,resourcequota -n boutique-portfolio
 ```
 
-See [`docs/DEPLOYMENT_GUIDE.md`](docs/DEPLOYMENT_GUIDE.md) for validation notes. The historical upstream README is kept in [`docs/UPSTREAM_README.md`](docs/UPSTREAM_README.md).
+A metrics server is required for the HPA to report CPU utilisation. Use a disposable cluster for load tests, and begin any checkout issue with request rate, error ratio, service endpoints, pod restarts, and a trace before changing replica counts.
+
+## Repository layout
+
+| Path | Purpose |
+|---|---|
+| `src/` | Upstream microservices and load generator. |
+| `kustomize/` | Upstream Kustomize base. |
+| `overlays/dev/` | Namespace, quota, HPA, and Service changes maintained here. |
+| `helm-chart/` | Upstream Helm chart. |
+| `scripts/validate-overlay.sh` | Renders the development overlay before apply. |
+
+The application is not presented as an original product. The useful work here is the deployment overlay and the operational workflow around it.
